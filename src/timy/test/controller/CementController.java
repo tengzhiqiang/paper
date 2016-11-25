@@ -9,6 +9,7 @@ import timy.test.projo.Cement;
 import timy.test.projo.Coal;
 import timy.test.service.CementService;
 import timy.test.service.ResultService;
+import timy.test.thread.SaveResults;
 import timy.test.util.JdbcTool;
 import timy.test.util.Thread.strToDate_Thread;
 
@@ -141,11 +142,11 @@ public class CementController {
 		int i = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
-//		List<Cement>inList =new ArrayList<Cement>();
-//		List<Cement> outList= new ArrayList<Cement>();
+		
+		List<Cement>inList =new ArrayList<Cement>();
+		List<Cement> outList= new ArrayList<Cement>();
 		
 		while (flag) {
-			int count = 0;
 			sql = "select * from "+ table+" where id between ? and ? and remark=0 and type=1";
 //			list = JdbcTool.getResultSet(Cement.class, sql, start, end);
 			list = CementService.select(sql, start, end);
@@ -155,8 +156,8 @@ public class CementController {
 			}
 			
 			date = new Date();
-			System.out.println("开始本次匹配="+df.format(date));
-			
+			System.out.println("开始本次匹配="+table+",开始时间="+df.format(date));
+			int index = 0;
 			for (Cement cement : list) {
 				
 	//			####################查找对应记录并记录结果#########################
@@ -167,33 +168,44 @@ public class CementController {
 //				List<Cement> cementlist = JdbcTool.getResultSet(Cement.class, outsql,cement.getTon(),cement.getBatchport(),0
 //					,0, cement.getDate());//查找对应的出港口信息
 	
-                		Cement sortcement = null;
-                		if (cementlist.size() > 1) {
-                			count++;
-                		    sortcement = cementlist.get(0);// 找到一个时间为近似中间的一个记录进行匹配
-                		     ResultService.saveResult(cement, sortcement);// 保存记录结果
-//                		    inList.add(cement);
-//                		    outList.add(sortcement);
-                		    JdbcTool.delet((int) cement.getId(), 2, table);
-                		} else if (cementlist.size() == 1) {
-                			count++;
-                		    sortcement = cementlist.get(0);
-                		     ResultService.saveResult(cement, sortcement);
-//                		    inList.add(cement);
-//                		    outList.add(sortcement);
-                		    JdbcTool.delet((int) cement.getId(), 1, table);
-                		} else if (cementlist.size() == 0) {
-                		    JdbcTool.delet((int) cement.getId(), 9, table);
-                		}
+        		Cement sortcement = null;
+        		if (cementlist.size() > 1) {
+        		    sortcement = cementlist.get(0);// 找到一个时间为近似中间的一个记录进行匹配
+//                		     ResultService.saveResult(cement, sortcement);// 保存记录结果
+        		    inList.add(cement);
+        		    outList.add(sortcement);
+        		    JdbcTool.delet((int) cement.getId(), 2, table);
+        		    index++;
+        		} else if (cementlist.size() == 1) {
+        		    sortcement = cementlist.get(0);
+//                		     ResultService.saveResult(cement, sortcement);
+        		    inList.add(cement);
+        		    outList.add(sortcement);
+        		    JdbcTool.delet((int) cement.getId(), 1, table);
+        		    index++;
+        		} else if (cementlist.size() == 0) {
+        		    JdbcTool.delet((int) cement.getId(), 9, table);
+        		}
+                if (inList.size()==400) {
+					SaveResults saveResults = new SaveResults(inList, outList);
+					saveResults.start();
+					inList = new ArrayList<Cement>();
+					outList = new ArrayList<Cement>();
+				}		
 			}
+			 if (inList.size()>0) {
+					SaveResults saveResults = new SaveResults(inList, outList);
+					saveResults.start();
+					inList = new ArrayList<Cement>();
+					outList = new ArrayList<Cement>();
+				}
 			date = new Date();
 			start = end;end = end + 10000;
-			System.out.println(table+"结束本次匹配="+df.format(date)+"**********完成匹配记录数="+count);
-			count = 0;
+			System.out.println("结束本次匹配="+table+",结束时间="+df.format(date)+"***完成匹配记录数="+ index+",匹配到end="+end);
 //			System.out.println("******主线程休息10s*****");
 //			Thread.sleep(10*1000);
 		}
-		System.out.println("该循环结束！"+i+"开始转换时间");
+		System.out.println("该循环结束！"+i);
 		
 	}
 

@@ -6,21 +6,16 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.mchange.v2.c3p0.impl.NewPooledConnection;
-
 import timy.test.projo.Cement;
-import timy.test.projo.Coal;
 import timy.test.projo.Oil;
 import timy.test.projo.Worker;
-import timy.test.service.CementService;
-import timy.test.service.CoalService;
 import timy.test.service.OilService;
 import timy.test.service.WorkerService;
+import timy.test.util.DruidUtil;
 import timy.test.util.JdbcTool;
 import timy.test.util.jdbcStratment;
 
@@ -29,9 +24,12 @@ public class testConnection {
 	
 	@Test//测试获取list的时间
     public void getlists() {
-	String strs = "abbabba";
-	String strb = "bb";
-	System.out.println(strs.replace("a", "A"));
+//	String strs = "abbabba";
+//	String strb = "bb";
+//	System.out.println(strs.replace("a", "A"));
+	
+	
+	System.out.println(DruidUtil.getconnection());
 	
     }
 	

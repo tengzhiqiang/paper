@@ -31,7 +31,6 @@ public class CoalThread extends Thread {
 //				System.out.println("处理的表为："+table+"中间记录为："+list.get(0).getId()+"，最后一条记录为："+list.get(1).getId());
 //				ramList.dealList(table, (int)list.get(0).getId(), (int)list.get(1).getId());
 			   cement.dealList(list, table);
-			   DifferentDate.strtodate();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

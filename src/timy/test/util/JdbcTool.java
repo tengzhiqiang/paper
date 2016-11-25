@@ -95,7 +95,7 @@ public class JdbcTool {
 		Connection cnn = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			cnn = getConnection();//使用静态方法  getConnection()
+			cnn = getConnection();//使用静态方法  getConnection()   DruidUtil.getconnection()
 //			statement = cnn.createStatement();
 //			statement.executeUpdate(sql);
 			
@@ -108,12 +108,10 @@ public class JdbcTool {
 			}
 			preparedStatement.executeUpdate();
 			
-//			JdbcTool.rease(null, cnn, preparedStatement);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}finally{
 			JdbcTool.rease(null, cnn, preparedStatement);
-//			System.out.println("释放*******preparedStatement");
 		}
 		
 	}
@@ -234,7 +232,7 @@ public class JdbcTool {
 
 	   for (int i = 1; i < list.size(); i++) {
 	       result = list.get(i);
-		builder.append(",("+result.getTon()+","+result.getOuttime()+","+result.getIntime()+",'"+result.getBatchport()+"',"+result.getCargoout()
+		builder.append(",("+result.getTon()+",'"+result.getOuttime()+"','"+result.getIntime()+"','"+result.getBatchport()+"',"+result.getCargoout()
 			+","+result.getCargoin()+",'"+result.getCargotype()+"',"+result.getInid()+","+result.getOutid()+")");
 	    }
 	    try {

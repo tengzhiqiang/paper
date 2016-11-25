@@ -1,14 +1,16 @@
 package timy.test.service;
 
+import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import timy.test.projo.Cement;
-import timy.test.projo.Coal;
 import timy.test.projo.Result;
 import timy.test.util.JdbcTool;
 
@@ -113,6 +115,8 @@ public class ResultService {
 	   endBuilder.append(")");
 	   builder.append(endBuilder);
 	   JdbcTool.update(builder.toString());
+	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	   System.out.println("本次时间更新="+list.size()+",时间："+df.format(new Date()));
 	    return true;
 	    
 	}
@@ -146,6 +150,7 @@ public class ResultService {
 		result.setOuttime(rs.getString("outtime"));
 		// result.setPort(rs.getString("port"));
 		result.setTon(rs.getFloat("ton"));
+		result.setMinutes(rs.getDouble("minutes"));
 
 		list.add(result);
 	    }

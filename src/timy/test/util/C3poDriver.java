@@ -36,10 +36,10 @@ public class C3poDriver {
 		ds.setJdbcUrl(url);
 		ds.setUser(user);
 		ds.setPassword(password);
-		ds.setMaxPoolSize(2000);
+		ds.setMaxPoolSize(50);
 		ds.setMinPoolSize(2);
-		ds.setInitialPoolSize(10);
-		ds.setMaxStatements(100);
+		ds.setInitialPoolSize(20);
+		ds.setMaxStatements(10);
 		
 		
 		cnn = ds.getConnection();

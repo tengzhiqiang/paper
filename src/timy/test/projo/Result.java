@@ -135,9 +135,11 @@ public class Result {
 				+ ", intime=" + intime + ", port=" + port + ", batchport="
 				+ batchport + ", cargoout=" + cargoout + ", cargoin=" + cargoin
 				+ ", cargotype=" + cargotype + ", remark=" + remark + ", inid="
-				+ inid + ", outid=" + outid + "]";
+				+ inid + ", outid=" + outid + ", minutes=" + minutes + "]";
 	}
 
+
+	
 
 	
 }
