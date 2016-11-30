@@ -1,11 +1,25 @@
 package timy;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.junit.Test;
 
@@ -17,7 +31,55 @@ import timy.test.util.Thread.ResultSave_Thread;
 
 public class TestMode {
 	
-	
+	public static String path = "D:/web/safe.i189.com/policy/receive/";
+	public static String receive_txt = "D:/web/safe.i189.com/policy/receive_txt/";
+	@Test
+	public void addzipfile() {
+		try {
+			File f = new File(path);
+			File[] zips = f.listFiles();
+			
+			for (int i = 0; i < zips.length; i++) {
+				if (zips[i].getName().contains(".txt")) {
+					BufferedReader br = new BufferedReader(new FileReader(zips[i]));
+					String lines = br.readLine();
+					while (lines!=null) {
+						String[] str = lines.split("\t");
+						File txts = new File(receive_txt);
+						File[] array = txts.listFiles();
+						if (str.length>4) {
+							for (int j = 0; j < txts.length(); j++) {
+//							System.out.println(Integer.parseInt(str[4]));
+								int num = Integer.parseInt(str[4])/10000;
+								String zipname = zips[i].getName().replace(".zip", "");
+								if (num>10) {
+									zipname = "_0"+num+".txt";
+								}else {
+									zipname = "_00"+num+".txt";
+								}
+//								if (zips[i].getName().replace(".zip", ".txt")) {
+									
+//								}
+							}
+						}
+					}
+					
+				}
+			}
+			
+			
+			
+			
+			
+			
+		} catch (ZipException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Test
 	public void test_resultSet(){

@@ -8,14 +8,14 @@ public class AllThead {
 		
 		while (!flag) {
 			flag = true;
-			System.out.println("启动 t_grain 线程");
-			CoalThread oil = new CoalThread("t_grain");//3
+			System.out.println("启动 t_container 线程");
+			CoalThread oil = new CoalThread("t_container");//4
 			new Thread(oil).start();
 			
 			
-			System.out.println("启动t_iron线程");
-			CoalThread coal = new CoalThread("t_iron");//9
-			new Thread(coal).start();
+//			System.out.println("启动t_oil线程");
+//			CoalThread coal = new CoalThread("t_oil");//9
+//			new Thread(coal).start();
 			
 		}
 	}

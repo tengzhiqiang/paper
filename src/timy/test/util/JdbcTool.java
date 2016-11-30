@@ -225,15 +225,15 @@ public class JdbcTool {
 	
 	public static void savelist(List<Result>list, String table) {
 	    StringBuilder builder = new StringBuilder("INSERT INTO t_result (ton, outtime, intime, batchport, cargoout,"
-	    	+ "cargoin, cargotype, inid, outid) VALUES");
+	    	+ "cargoin, cargotype, inid, outid, remark) VALUES");
 	    Result result = list.get(0);
 		builder.append("("+result.getTon()+",'"+result.getOuttime()+"','"+result.getIntime()+"','"+result.getBatchport()+"',"+result.getCargoout()
-			+","+result.getCargoin()+",'"+result.getCargotype()+"',"+result.getInid()+","+result.getOutid()+")");
+			+","+result.getCargoin()+",'"+result.getCargotype()+"',"+result.getInid()+","+result.getOutid()+",'"+result.getRemark()+"')");
 
 	   for (int i = 1; i < list.size(); i++) {
 	       result = list.get(i);
 		builder.append(",("+result.getTon()+",'"+result.getOuttime()+"','"+result.getIntime()+"','"+result.getBatchport()+"',"+result.getCargoout()
-			+","+result.getCargoin()+",'"+result.getCargotype()+"',"+result.getInid()+","+result.getOutid()+")");
+			+","+result.getCargoin()+",'"+result.getCargotype()+"',"+result.getInid()+","+result.getOutid()+",'"+result.getRemark()+"')");
 	    }
 	    try {
 		update(builder.toString());

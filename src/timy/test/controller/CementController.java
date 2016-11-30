@@ -23,53 +23,55 @@ public class CementController {
 	public void dele_unusedata(String table) {
 		String sql = null;
 		List<Cement> list = null;
-		int start =0;int end =start + 5000;
+		int start = 0;
+		int end = start + 5000;
 		int i = 0;
 		List<Object> dele_Array = new ArrayList<Object>();
-		List<String>list_dealtime = new ArrayList<String>();
-		List<Integer>list_id = new ArrayList<Integer>();
-		
-		
+		List<String> list_dealtime = new ArrayList<String>();
+		List<Integer> list_id = new ArrayList<Integer>();
+
 		while (true) {
-			sql = "select * from t_cement where id between ? and ? " ;
+			sql = "select * from t_cement where id between ? and ? ";
 			try {
-				list = JdbcTool.getResultSet(Cement.class, sql, start,end);
+				list = JdbcTool.getResultSet(Cement.class, sql, start, end);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			i +=list.size();
-			if (list.size()==0) {
+			i += list.size();
+			if (list.size() == 0) {
 				break;
 			}
-		//####################  删除无效数据  更新时间  ############################  @@@@@@@@@@@可以改进的地方sql语句使用stringbuilder来拼接
-			
+			// #################### 删除无效数据 更新时间 ############################
+			// @@@@@@@@@@@可以改进的地方sql语句使用stringbuilder来拼接
+
 			for (Cement cement : list) {
-				if (cement.getTon()< 5||cement.getBatchport()==null) {
-					System.out.println("删除掉记录ID="+cement.getId());
+				if (cement.getTon() < 5 || cement.getBatchport() == null) {
+					System.out.println("删除掉记录ID=" + cement.getId());
 					dele_Array.add(cement.getId());
 					if (dele_Array.size() == 1000) {
 						CementService.dele_array(dele_Array, 0, table);
 						dele_Array = new ArrayList<Object>();
-						System.out.println("删除掉oil的无效记录to ID="+cement.getId()+"完成删除100条");
+						System.out.println("删除掉oil的无效记录to ID=" + cement.getId()+ "完成删除100条");
 					}
-				}else if (cement.getDate()==null){
+				} else if (cement.getDate() == null) {
 					try {
 						list_dealtime.add(cement.getDealtime());
-						list_id.add((int)cement.getId());
-						if (list_id.size()==100) {
-							new strToDate_Thread(list_dealtime, list_id,table).start();
+						list_id.add((int) cement.getId());
+						if (list_id.size() == 100) {
+							new strToDate_Thread(list_dealtime, list_id, table).start();
 							list_dealtime = new ArrayList<String>();
 							list_id = new ArrayList<Integer>();
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					}
-				
 				}
-			start = end;end = end + 5000;
+
+			}
+			start = end;
+			end = end + 5000;
 		}
-		System.out.println("该循环结束！"+i);
+		System.out.println("该循环结束！" + i);
 	}
 	
 	/**
